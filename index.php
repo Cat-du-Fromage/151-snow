@@ -7,21 +7,30 @@
  * @version   26-MAR-2021
  */
 
+session_start();
+
 require "controller/navigation.php";
 require "controller/user.php";
 
-if (isset($_GET['action'])) {
+if (isset($_GET['action']))
+{
     $action = $_GET['action'];
-    switch ($action) {
+    switch ($action)
+    {
         case 'home' :
             home();
             break;
         case 'login' :
-            login();
+            login($_POST);
+            break;
+        case 'logout' :
+            logout();
             break;
         default :
             lost();
     }
-} else {
+}
+else
+{
     home();
 }

@@ -64,6 +64,14 @@
 					Livraison gratuite dès 200.-
 				</span>
 
+            <div class="topbar-child2">
+					<span  class="topbar-email">
+						<?php
+                        if(isset($_SESSION["email"]))
+						    echo $_SESSION["email"];
+						?>
+					</span>
+            </div>
 
         </div>
 
@@ -82,7 +90,11 @@
                         </li>
 
                         <li>
-                            <a href="index.php?action=login">Login</a>
+                            <?php if(isset($_SESSION['email']))
+                                echo '<a href="index.php?action=logout">Logout</a>';
+                            else
+                                echo '<a href="index.php?action=login">Login</a>';
+                            ?>
                         </li>
 
                     </ul>
@@ -119,6 +131,24 @@
 						<span class="topbar-child1">
 							Livraison gratuite dès 200.-
 						</span>
+                </li>
+
+                <li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
+                    <div class="topbar-child2-mobile">
+							<span class="topbar-email">
+								<?php
+                                if(isset($_SESSION["email"]))
+                                    echo $_SESSION["email"];
+                                ?>
+							</span>
+
+                        <div class="topbar-language rs1-select2">
+                            <select class="selection-1" name="time">
+                                <option>USD</option>
+                                <option>EUR</option>
+                            </select>
+                        </div>
+                    </div>
                 </li>
 
 
