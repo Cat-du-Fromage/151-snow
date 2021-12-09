@@ -90,6 +90,10 @@
                         </li>
 
                         <li>
+                            <a href="index.php?action=articles">Articles</a>
+                        </li>
+
+                        <li>
                             <?php if(isset($_SESSION['email']))
                                 echo '<a href="index.php?action=logout">Logout</a>';
                             else

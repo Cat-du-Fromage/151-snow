@@ -11,6 +11,8 @@ session_start();
 
 require "controller/navigation.php";
 require "controller/user.php";
+require "controller/articles.php";
+require "model/dbConnector.php";
 
 if (isset($_GET['action']))
 {
@@ -19,6 +21,10 @@ if (isset($_GET['action']))
     {
         case 'home' :
             home();
+            break;
+        case 'articles' :
+            articles();
+            displayArticles();
             break;
         case 'login' :
             login($_POST);

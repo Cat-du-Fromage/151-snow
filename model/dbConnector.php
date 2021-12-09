@@ -22,13 +22,16 @@ function openDBConnexion()
     $port = 3306;
     $charset = 'utf8';
     $dbName = 'snows';
-    $userName = '151snow'; //to change
-    $userPwd = 'P@ssw0rd';
+    $userName = 'Florian'; //to change
+    $userPwd = 'Pa$$w0rd';
     $dsn = $sqlDriver . ':host=' . $hostname . ';dbname=' . $dbName . ';port=' . $port . ';charset=' . $charset;
 
-    try {
+    try
+    {
         $tempDBConnexion = new PDO($dsn, $userName, $userPwd);
-    } catch (PDOException $exception) {
+    }
+    catch (PDOException $exception)
+    {
         echo 'Connection failed' . $exception->getMessage();
 		die();
     }
@@ -42,22 +45,21 @@ function openDBConnexion()
  * @return array|null
  * @link https://php.net/manual/en/pdo.prepare.php
  */
-function executeQuerySelect($query, $params)
+function executeQuerySelect($query, $params = null)
 {
     $queryResult = null;
 
     //open DB Connection
-    $dbConnexion = null;
-
+    $dbConnexion = openDBConnexion();
     //if connection is not null
-    if ($dbConnexion != null) {
+    if ($dbConnexion != null)
+    {
         //preparation query
-
+        $statement = $dbConnexion->prepare($query); //fixe la requête en readonly (sauf params qui peuvent être injecté)
         //we execute the request with the parameters used on the query
-
+        $statement->execute($params);
         //we prepare the results for the navigator
-
-
+        $queryResult = $statement->fetchAll();
     }
     $dbConnexion = null; // Fermeture de ma connection à la BD
     return $queryResult;
@@ -68,8 +70,25 @@ function executeQuerySelect($query, $params)
  * @param $query
  * @return null
  */
-function executeQueryInsert($query)
+function executeQueryInsert($query) : void
 {
+    //open DB Connection
+    $dbConnexion = openDBConnexion();
+    //if connection is not null
+    if ($dbConnexion != null)
+    {
+        //preparation query
+
+        $statement = $dbConnexion->prepare("INSERT INTO users (userEmailAddress, userHashPsw) VALUES (?, ?)");
+        $statement->bindParam(1, $email);
+        $statement->bindParam(2, $pwd);
+        //we execute the request with the parameters used on the query
+        $email = $query['email'];
+        $pwd = password_hash($query['userPswd'], PASSWORD_DEFAULT);
+        $statement->execute();
+    }
+    $dbConnexion = null; // Fermeture de ma connection à la BD
+
 
 }
 
