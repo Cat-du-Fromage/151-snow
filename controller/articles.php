@@ -33,6 +33,22 @@ function displayArticles()
     }
 }
 
+function displayArticlesAdmin()
+{
+    try
+    {
+        $articlesList = findArticles(); // Get From => model/articlesManager
+    }
+    catch (Exception $ex)
+    {
+        $articleErrorMessage = "Nous rencontrons temporairement un problème technique pour afficher nos produits. Désolé du dérangement !";
+    }
+    finally
+    {
+        require "view/adminArticles.php";
+    }
+}
+
 function displayArticleDetail($articleId)
 {
     try
@@ -48,4 +64,7 @@ function displayArticleDetail($articleId)
         require "view/article-detail.php";
     }
 }
+
+
+
 ?>
