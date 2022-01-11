@@ -47,6 +47,45 @@ function checkLoginDB($data)
         return false;
 }
 
+/**
+ * @brief This function is designed to verify user's login
+ * @param $userEmailAddress : must be meet RFC 5321/5322
+ * @param $userPsw : users's password
+ * @return bool : "true" only if the user and psw match the database. In all other cases will be "false".
+ * @throws ModelDataBaseException : will be throw if something goes wrong with the database opening process
+ */
+function isLoginCorrect($userEmailAddress, $userPsw)
+{
+    $result = false;
+
+    $loginQuery = "SELECT userHashPsw FROM users WHERE userEmailAddress =:femail";
+
+    require_once 'model/dbConnector.php';
+    $params = array(':femail' => $userEmailAddress);
+    $queryResult = executeQuerySelect($loginQuery,$params);
+
+    if (count($queryResult) == 1) {
+        $userHashPsw = $queryResult[0]['userHashPsw'];
+        //if password is not hashed
+        //$result = ($userPsw == $userHashPsw);
+        $result = password_verify($userPsw, $userHashPsw);
+    }
+    return $result;
+}
+
+function registerLogin($email, $pwd){
+    $result = false;
+
+    $loginQuery = "insert into users(userEmailAddress, userHashPsw, isAdmin) VALUES	(:femail, :fpwd, 0)";
+
+    $userHashPsw = password_hash($pwd, PASSWORD_DEFAULT);
+
+    require_once 'model/dbConnector.php';
+    $params = array(':femail' => $email,':fpwd' => $userHashPsw);
+    return executeQueryInsert($loginQuery,$params);
+
+}
+
 function CheckOrUpdateHash($data)
 {
 

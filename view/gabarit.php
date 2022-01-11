@@ -89,9 +89,6 @@
                             <a href="index.php">Accueil</a>
                         </li>
 
-                        <li>
-                            <a href="index.php?action=articles">Articles</a>
-                        </li>
 
                         <li>
                             <?php if(isset($_SESSION['email']))
@@ -101,6 +98,16 @@
                             ?>
                         </li>
 
+                        <li>
+                            <a href="index.php?action=displayArticles">Articles</a>
+                        </li>
+
+                        <?php
+                        if (!isset($_SESSION['email'])) { ?>
+                            <li>
+                                <a href="index.php?action=register">S'enregistrer</a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </nav>
             </div>

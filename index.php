@@ -22,15 +22,17 @@ if (isset($_GET['action']))
         case 'home' :
             home();
             break;
-        case 'articles' :
-            articles();
-            displayArticles();
+        case 'displayArticles' :
+            displayArticles(); // in Controller: articles
             break;
         case 'login' :
             login($_POST);
             break;
         case 'logout' :
             logout();
+            break;
+        case 'register' :
+            register($_POST);
             break;
         default :
             lost();
